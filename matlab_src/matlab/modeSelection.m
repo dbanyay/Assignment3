@@ -15,7 +15,7 @@ for block = 1 : numOfBlocks
             lambda = 0.2*stepSize^2; % Lagrange multiplier
             
             % intra mode
-            D0 = immse(qDCT16(:,:,block,frame,1),qDCT16(:,:,block,frame,quant));
+            D0 = immse(qDCT16(:,:,block,frame,quant),qDCT16(:,:,block,frame,1));
             R0 = bRate(quant)/numOfBlocks/FPS;
             R0 = R0 +1; % adding 1 bit for copy flag
             J0 = D0 + lambda*R0;
@@ -25,7 +25,7 @@ for block = 1 : numOfBlocks
             R1 = 1; % copy flag
             J1 = D1 + lambda*R1;
 
-            if J0 > J1
+            if J0 < J1
                 decisionMatrix(block,frame,quant) = 0;  % intra mode
             else
                 decisionMatrix(block,frame,quant) = 1;  % copy mode
