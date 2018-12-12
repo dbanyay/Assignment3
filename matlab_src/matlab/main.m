@@ -18,18 +18,12 @@ blocks16 = subdivide16(vid);  % subdivide to 16*16 blocks, work in a matrix
 
 %% Intra-Frame Video Coder
 
-
-%Divide the video into blocks of 16 x 16
-
 %Take DCT of each 16 x 16 block after subdividing into 8 x x blocks
-
-dctCoeffs16 = dct8x(tImg);
-
-
+dctCoeffs16 = dct8x(blocks16);
 
 %Quantize all the coefficients using same Q
-
-
+qStep = 1:10;
+qDCT16 = quant(dctCoeffs16,qStep);
 
 
 %% Conditional Replenishment Video Coder
