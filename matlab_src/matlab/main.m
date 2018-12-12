@@ -28,6 +28,6 @@ qDCT16 = quant(dctCoeffs16,qStep);
 
 %% Conditional Replenishment Video Coder
 
-decisions = modeSelection(blocks16);
+decisions = modeSelection(qDCT16, ent16x);
 
 %% Video Coder with Motion Compensation

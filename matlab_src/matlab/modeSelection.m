@@ -1,4 +1,4 @@
-function decisionMatrix = modeSelection(blocks,qDCT16)
+function decisionMatrix = modeSelection(qDCT16, rate16)
 % Select encoding mode for each 16*16 block
 
 numOfBlocks = size(qDCT16,3);
@@ -15,7 +15,7 @@ for block = 1 : numOfBlocks
             lambda = 0.2*stepSize^2; % Lagrange multiplier
 
             D0 = immse(qDCT(:,:,block,frame,1),qDCT(:,:,block,frame,quant));
-            R0 = ratematrix(1,1,1);
+            R0 = rate16(block,frame,quant);
             R0 = R0 +1; % adding 1 bit for copy flag
             J0 = D0 + lambda*R0;
 
