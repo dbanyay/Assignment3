@@ -13,12 +13,13 @@ resolution = [176 144]; %qcif
 
 vid = yuv_import_y(filename, resolution, num_of_frames);
 
-blocks16 = subdivide16(vid);
+blocks16 = subdivide16(vid);  % subdivide to 16*16 blocks, work in a matrix
 
 
 %% Intra-Frame Video Coder
 
-
 %% Conditional Replenishment Video Coder
+
+decisions = modeSelection(blocks16);
 
 %% Video Coder with Motion Compensation
