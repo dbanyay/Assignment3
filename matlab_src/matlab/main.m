@@ -13,6 +13,7 @@ resolution = [176 144]; %qcif
 
 vid = yuv_import_y(filename, resolution, num_of_frames);
 
+blocks16 = subdivide16(vid);
 
 
 %% Intra-Frame Video Coder
