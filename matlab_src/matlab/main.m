@@ -1,3 +1,4 @@
+clc
 clear all
 close all
 
@@ -14,9 +15,17 @@ resolution = [176 144]; %qcif
 vid = yuv_import_y(filename, resolution, num_of_frames);
 
 
-
 %% Intra-Frame Video Coder
 
+%Divide the video into blocks of 16 x 16
+
+%Take DCT of each 16 x 16 block after subdividing into 8 x x blocks
+
+dctCoeffs16 = dct8x(tImg);
+
+
+
+%Quantize all the coefficients using same Q
 
 %% Conditional Replenishment Video Coder
 
