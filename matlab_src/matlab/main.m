@@ -29,13 +29,35 @@ dctCoeffs16 = dct8x(blocks16);
 qStep = 1:10;
 qDCT16 = quant(dctCoeffs16,qStep);
 
+%Recovering frames in the dimesnsions equal to blocks16
+idctFb = idct16x(qDCT16);
+
 %Entropy Calculator for 16 x 16 block
 ent16x = entroCal(qDCT16);
-
 
 %calculating bit-rate for each quantization step
 bRate = brEst(ent16x,num_of_blocks,FPS); %bit-rate in bits/second
 
+%Calculating PSNR for each quantization step
+distor = disEst(blocks16, idctFb);
+avgd = mean(distor);
+
+psnrEachF = psnrCalc(distor);
+avgPSNR = mean(psnrEachF);
+
+figure()
+plot((bRate/(1024)),(avgd),'*-')
+xlabel('bit rate in kbits per second')
+ylabel('average distortion')
+title('bit-rate Vs Distortion')
+
+figure()
+plot((bRate/(1024)),(avgPSNR),'*-')
+xlabel('bit rate in kbits per second')
+ylabel('average PSNR in dB')
+title('bit-rate Vs PSNR')
+
+slopeBRvsPSNR = gradI(bRate,avgPSNR)
 
 %% Conditional Replenishment Video Coder
 
