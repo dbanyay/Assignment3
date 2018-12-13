@@ -5,9 +5,10 @@ close all
 
 %% Initialize
 
-filename = 'foreman_qcif/foreman_qcif.yuv';
-%filename = 'mother_daugther_qcif/mother_daugther_qcif.yuv';
-
+% filename = 'foreman_qcif/foreman_qcif.yuv';
+% filename = 'mother-daugther_qcif/mother-daugther_qcif.yuv';
+filename = 'foreman_qcif.yuv';
+filename = 'mother-daughter_qcif.yuv';
 FPS = 30; %Number of Frames per second
 
 num_of_frames = 50;
