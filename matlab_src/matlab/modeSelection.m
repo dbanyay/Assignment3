@@ -1,4 +1,4 @@
-function decisionMatrix = modeSelection(qDCT16, bRate, FPS)
+function decisionMatrix = modeSelection(qDCT16, FPS)
 % Select encoding mode for each 16*16 block
 
 numOfBlocks = size(qDCT16,3);
@@ -7,16 +7,17 @@ numOfQuantLevels = size(qDCT16,5);
 
 decisionMatrix = zeros(numOfBlocks, numOfFrames, numOfQuantLevels);
 
-for block = 1 : numOfBlocks
+for quant = 1 : numOfQuantLevels
+    R0 = calculateRate(qDCT16(:,:,:,:,quant), FPS);
+   
     for frame = 2:numOfFrames
-        for quant = 1:numOfQuantLevels
+        for block = 1:numOfBlocks
                                    
             stepSize = (2^quant)^2;
             lambda = 0.2*stepSize^2; % Lagrange multiplier
             
             % intra mode
             D0 = immse(qDCT16(:,:,block,frame,quant),qDCT16(:,:,block,frame,1));
-            R0 = bRate(quant)/numOfBlocks/FPS;
             R0 = R0 +1; % adding 1 bit for copy flag
             J0 = D0 + lambda*R0;
             

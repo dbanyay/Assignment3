@@ -5,8 +5,8 @@ close all
 
 %% Initialize
 
-filename = 'foreman_qcif/foreman_qcif.yuv';
-%filename = 'mother_daugther_qcif/mother_daugther_qcif.yuv';
+%filename = 'foreman_qcif/foreman_qcif.yuv';
+filename = 'mother_daughter_qcif/mother-daughter_qcif.yuv';
 
 FPS = 30; %Number of Frames per second
 
@@ -30,6 +30,7 @@ qStep = 1:10;
 qDCT16 = quant(dctCoeffs16,qStep);
 
 %Entropy Calculator for 16 x 16 block
+
 ent16x = entroCal(qDCT16);
 
 
@@ -39,7 +40,7 @@ bRate = brEst(ent16x,num_of_blocks,FPS); %bit-rate in bits/second
 
 %% Conditional Replenishment Video Coder
 
-% decisions = modeSelection(blocks16);
+decisions = modeSelection(qDCT16, FPS);
 
 
 %% Video Coder with Motion Compensation
