@@ -63,4 +63,5 @@ slopeBRvsPSNR = gradI(bRate,avgPSNR)
 
 % decisions = modeSelection(blocks16);
 
+
 %% Video Coder with Motion Compensation
