@@ -17,11 +17,11 @@ for quant = 1 : numOfQuantLevels
             lambda = 0.2*stepSize^2; % Lagrange multiplier
             
             % intra mode
-            D0 = sum(sum((qDCT16(:,:,block,frame,quant)-qDCT16(:,:,block,frame,1)).^2));           
+            D0 = sum(sum((qDCT16(:,:,block,frame,quant)^2-qDCT16(:,:,block,frame,1)^2).^2));           
             J0 = D0 + lambda*R0;
             
             % copy mode
-            D1 = sum(sum((qDCT16(:,:,block,frame-1,quant)-qDCT16(:,:,block,frame,1)).^2));
+            D1 = sum(sum((qDCT16(:,:,block,frame-1,quant)^2-qDCT16(:,:,block,frame,1)^2).^2));
             R1 = 1; % copy flag
             J1 = D1 + lambda*R1;
 
