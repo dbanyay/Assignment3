@@ -28,6 +28,8 @@ dctCoeffs16 = dct8x(blocks16);
 
 %Quantize all the coefficients using same Q
 qStep = 1:10;
+num_of_quant_steps = 10;
+
 qDCT16 = quant(dctCoeffs16,qStep);
 
 %Recovering frames in the dimesnsions equal to blocks16
@@ -40,7 +42,7 @@ ent16x = entroCal(qDCT16);
 bRate = brEst(ent16x,num_of_blocks,FPS); %bit-rate in bits/second
 
 %Calculating PSNR for each quantization step
-distor = disEst(blocks16, idctFb);
+distor = disEst(blocks16, idctFb,num_of_frames,num_of_quant_steps);
 avgd = mean(distor);
 
 psnrEachF = psnrCalc(distor);
