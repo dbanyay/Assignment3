@@ -19,7 +19,10 @@ num_of_blocks = (resolution(1)/16)*(resolution(2)/16);
 
 vid = yuv_import_y(filename, resolution, num_of_frames);
 
+framesM = getFrames(vid,num_of_frames); %Get the frames with dimensions (im_size(1),im_size(2),num_of_frames)
 blocks16 = subdivide16(vid);  % subdivide to 16*16 blocks, work in a matrix
+
+dispVecs = motionComp(framesM,num_of_frames);
 
 %% Intra-Frame Video Coder
 
@@ -52,13 +55,15 @@ psnrEachF = psnrCalc(distor);
 avgPSNR = mean(psnrEachF);
 
 figure()
-plot((bRate(3:5)/(1024)),(avgd(3:5)),'*-')
+% plot((bRate(3:5)/(1024)),(avgd(3:5)),'*-')
+plot((bRate./(1024)),(avgd),'*-')
 xlabel('bit rate in kbits per second')
 ylabel('average distortion')
 title('bit-rate Vs Distortion')
 
 figure()
-plot((bRate(3:5)/(1024)),(avgPSNR(3:5)),'*-')
+% plot((bRate(3:5)/(1024)),(avgPSNR(3:5)),'*-')
+plot((bRate./(1024)),(avgPSNR),'*-')
 xlabel('bit rate in kbits per second')
 ylabel('average PSNR in dB')
 title('bit-rate Vs PSNR')
@@ -67,8 +72,12 @@ slopeBRvsPSNR = gradI(bRate,avgPSNR)
 
 %% Conditional Replenishment Video Coder
 
-decisions = modeSelection(qDCT16, FPS);
+% decisions = modeSelection(qDCT16, FPS);
 
 
 %% Video Coder with Motion Compensation
+
+% currentFrame = framesM(:,:,1);
+dispVecs = motionComp(framesM,num_of_frames);
+
 

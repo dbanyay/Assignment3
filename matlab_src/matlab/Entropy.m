@@ -15,5 +15,5 @@ P = Frequency / sum(Frequency);
 
 % Calculate entropy in bits
 H = -sum(P .* log2(P));
-
+% H = -sum(log2(P));
 end
