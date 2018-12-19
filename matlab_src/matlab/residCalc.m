@@ -1,5 +1,12 @@
 function residualF = residCalc(framesM,nof,dispVecs)
 
+%**************************************************************************
+%Starting with frame1 and storing it is as it is in residual1 we start by
+%calculating the resisual through subtracting the original next frame and
+%its prediction made through moving previous frame by
+%dispVec(:,ro,co,num_of_frame)
+%**************************************************************************
+
 im_size = size(framesM(:,:,1));
 residualF = zeros(im_size(1),im_size(2),nof);
 residualF(:,:,1) = framesM(:,:,1);
