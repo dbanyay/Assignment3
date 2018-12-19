@@ -47,28 +47,28 @@ bRate = brEst(ent16x,num_of_blocks,FPS); %bit-rate in bits/second
 
 %Calculating PSNR for each quantization step
 % distor = disEst(blocks16,idctFb,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original Image, Recovered Image)
-distor = disEst(dctCoeffs16,qDCT16,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
-
-avgd = mean(distor);
-
-psnrEachF = psnrCalc(distor);
-avgPSNR = mean(psnrEachF);
-
-figure()
-% plot((bRate(3:5)/(1024)),(avgd(3:5)),'*-')
-plot((bRate./(1024)),(avgd),'*-')
-xlabel('bit rate in kbits per second')
-ylabel('average distortion')
-title('bit-rate Vs Distortion')
-
-figure()
-% plot((bRate(3:5)/(1024)),(avgPSNR(3:5)),'*-')
-plot((bRate./(1024)),(avgPSNR),'*-')
-xlabel('bit rate in kbits per second')
-ylabel('average PSNR in dB')
-title('bit-rate Vs PSNR')
-
-slopeBRvsPSNR = gradI(bRate,avgPSNR)
+% distor = disEst(dctCoeffs16,qDCT16,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
+% 
+% avgd = mean(distor);
+% 
+% psnrEachF = psnrCalc(distor);
+% avgPSNR = mean(psnrEachF);
+% 
+% figure()
+% % plot((bRate(3:5)/(1024)),(avgd(3:5)),'*-')
+% plot((bRate./(1024)),(avgd),'*-')
+% xlabel('bit rate in kbits per second')
+% ylabel('average distortion')
+% title('bit-rate Vs Distortion')
+% 
+% figure()
+% % plot((bRate(3:5)/(1024)),(avgPSNR(3:5)),'*-')
+% plot((bRate./(1024)),(avgPSNR),'*-')
+% xlabel('bit rate in kbits per second')
+% ylabel('average PSNR in dB')
+% title('bit-rate Vs PSNR')
+% 
+% slopeBRvsPSNR = gradI(bRate,avgPSNR)
 
 %% Conditional Replenishment Video Coder
 
@@ -77,7 +77,7 @@ slopeBRvsPSNR = gradI(bRate,avgPSNR)
 
 %% Video Coder with Motion Compensation
 
-% currentFrame = framesM(:,:,1);
 dispVecs = motionComp(framesM,num_of_frames);
-
+residualF = residCalc(framesM,num_of_frames,dispVecs);
+% imshow(residualF(:,:,4),[])
 
