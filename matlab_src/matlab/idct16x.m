@@ -1,8 +1,6 @@
-function idctFb = idct16x(qDCT16)
+function idctFb = idct16x(qDCT16,qStep,nob,nof)
 
-nob = 99;
-nof = 50;
-qSteps = 10;
+qSteps = numel(qStep);
 
 for q = 1:qSteps
     for f = 1:nof

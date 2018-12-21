@@ -29,20 +29,20 @@ blocks16 = subdivide16(vid);  % subdivide to 16*16 blocks, work in a matrix
 dctCoeffs16 = dct8x(blocks16);
 
 %Quantize all the coefficients using same Q
-qStep = 1:10;
-num_of_quant_steps = 10;
+qStep = 3:6;
+num_of_quant_steps = 4;
 
 qDCT16 = quant(dctCoeffs16,qStep);
 
 %Recovering frames in the dimesnsions equal to blocks16
-idctFb = idct16x(qDCT16);
+idctFb = idct16x(qDCT16,qStep,num_of_blocks,num_of_frames);
 
 %Entropy Calculator for 16 x 16 block
 
-ent16x = entroCal(qDCT16);
+ent16x = entroCal(qDCT16,qStep);
 
 %calculating bit-rate for each quantization step
-bRate = brEst(ent16x,num_of_blocks,FPS); %bit-rate in bits/second
+bRate = brEst(ent16x,num_of_blocks,FPS,qStep); %bit-rate in bits/second
 
 %Calculating PSNR for each quantization step
 distor = disEst(blocks16,idctFb,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original Image, Recovered Image)
@@ -102,9 +102,10 @@ slopeBRvsPSNR_rep = gradI(bRate_rep,avgPSNR_rep)
 %% Video Coder with Motion Compensation
 
 dispVecs = motionComp(framesM,num_of_frames);
+
 residualF = residCalc(framesM,num_of_frames,dispVecs);
 
-bitVec = Entropy(-10:10);
+% bitVec = Entropy(-10:10);
 
 %% Residual encoding
 
