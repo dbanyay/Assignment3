@@ -1,4 +1,4 @@
-function decisionMatrix = modeSelection(qDCT16, FPS)
+function [decisionMatrix, replenishment_encoded] = modeSelection(qDCT16, FPS)
 % Select encoding mode for each 16*16 block
 
 numOfBlocks = size(qDCT16,3);
@@ -6,6 +6,7 @@ numOfFrames = size(qDCT16,4);
 numOfQuantLevels = size(qDCT16,5);
 
 decisionMatrix = zeros(numOfBlocks, numOfFrames, numOfQuantLevels);
+replenishment_encoded = zeros(size(qDCT16));
 
 for quant = 1 : numOfQuantLevels
     R0 = calculateRate(qDCT16(:,:,:,:,quant), FPS)+1;
@@ -27,8 +28,10 @@ for quant = 1 : numOfQuantLevels
 
             if J0 < J1
                 decisionMatrix(block,frame,quant) = 0;  % intra mode
+                replenishment_encoded(:,:,block,frame,quant) = qDCT16(:,:,block,frame,quant);
             else
                 decisionMatrix(block,frame,quant) = 1;  % copy mode
+                replenishment_encoded(:,:,block,frame,quant) = qDCT16(:,:,block,frame-1,quant);
             end
         end
     end
