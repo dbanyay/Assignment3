@@ -83,14 +83,14 @@ psnrEachF_rep = psnrCalc(distor_rep);
 avgPSNR_rep = mean(psnrEachF_rep);
 
 figure()
-plot((bRate(3:5)/(1024)),(avgd(3:5)),'*-')
+plot((bRate(2:6)/(1024)),(avgd(2:6)),'*-')
 %plot((bRate_rep./(1024)),(avgd_rep),'*-')
 xlabel('bit rate in kbits per second')
 ylabel('average distortion')
 title('bit-rate Vs Distortion, Replenished')
 
 figure()
-plot((bRate(3:5)/(1024)),(avgPSNR(3:5)),'*-')
+plot((bRate(2:6)/(1024)),(avgPSNR(2:6)),'*-')
 %plot((bRate_rep./(1024)),(avgPSNR_rep),'*-')
 xlabel('bit rate in kbits per second')
 ylabel('average PSNR in dB')
@@ -110,4 +110,48 @@ bitVec = Entropy(-10:10);
 
 bVec = Entropy(-10:10);
 bRVec = bVec*(size(dispVecs,1)*size(dispVecs,2)*size(dispVecs,3)*29);
+
+for i = 1:num_of_frames
+   
+    residualF_cell{i,1} = residualF(:,:,i);
+    
+end
+
+
+blocks16_res = subdivide16(residualF_cell);
+dctCoeffs16_res = dct8x(blocks16_res);
+
+%Quantize all the coefficients using same Q
+qDCT16_res = quant(dctCoeffs16_res,qStep);
+
+%Entropy Calculator for 16 x 16 block
+
+ent16x_res = entroCal(qDCT16_res);
+
+%calculating bit-rate for each quantization step
+bRate = brEst(ent16x_res,num_of_blocks,FPS); %bit-rate in bits/second
+bRate = bRate + bVec; % add size of vectors
+%Calculating PSNR for each quantization step
+distor_res = disEst(dctCoeffs16_res,qDCT16_res,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
+
+avgd_res = mean(distor_res);
+
+psnrEachF_res = psnrCalc(distor_res);
+avgPSNR_res = mean(psnrEachF_res);
+
+figure()
+plot((bRate(2:6)/(1024)),(avgd(2:6)),'*-')
+% plot((bRate_res./(1024)),(avgd_res),'*-')
+xlabel('bit rate in kbits per second')
+ylabel('average distortion')
+title('bit-rate Vs Distortion, motion comp')
+
+figure()
+plot((bRate(2:6)/(1024)),(avgPSNR(2:6)),'*-')
+% plot((bRate_res./(1024)),(avgPSNR_res),'*-')
+xlabel('bit rate in kbits per second')
+ylabel('average PSNR in dB')
+title('bit-rate Vs PSNR, motion comp')
+
+slopeBRvsPSNR = gradI(bRate,avgPSNR)
 

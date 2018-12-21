@@ -1,4 +1,4 @@
-function residualF = residCalc(framesM,nof,dispVecs)
+function [residualF, residualIntra] = residCalc(framesM,nof,dispVecs)
 
 %**************************************************************************
 %Starting with frame1 and storing it is as it is in residual1 we start by
