@@ -22,7 +22,6 @@ vid = yuv_import_y(filename, resolution, num_of_frames);
 framesM = getFrames(vid,num_of_frames); %Get the frames with dimensions (im_size(1),im_size(2),num_of_frames)
 blocks16 = subdivide16(vid);  % subdivide to 16*16 blocks, work in a matrix
 
-dispVecs = motionComp(framesM,num_of_frames);
 
 %% Intra-Frame Video Coder
 
@@ -45,12 +44,12 @@ ent16x = entroCal(qDCT16);
 %calculating bit-rate for each quantization step
 bRate = brEst(ent16x,num_of_blocks,FPS); %bit-rate in bits/second
 
-%Calculating PSNR for each quantization step
+% %Calculating PSNR for each quantization step
 % distor = disEst(blocks16,idctFb,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original Image, Recovered Image)
 % distor = disEst(dctCoeffs16,qDCT16,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
 % 
 % avgd = mean(distor);
-% 
+
 % psnrEachF = psnrCalc(distor);
 % avgPSNR = mean(psnrEachF);
 % 
@@ -79,5 +78,4 @@ bRate = brEst(ent16x,num_of_blocks,FPS); %bit-rate in bits/second
 
 dispVecs = motionComp(framesM,num_of_frames);
 residualF = residCalc(framesM,num_of_frames,dispVecs);
-% imshow(residualF(:,:,4),[])
-
+bitVec = Entropy(-10:10);
