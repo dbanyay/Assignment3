@@ -70,7 +70,7 @@ bRate = brEst(ent16x,num_of_blocks,FPS); %bit-rate in bits/second
 % slopeBRvsPSNR = gradI(bRate,avgPSNR)
 
 %% Conditional Replenishment Video Coder
-
+% 
 % decisions = modeSelection(qDCT16, FPS);
 
 
@@ -78,4 +78,5 @@ bRate = brEst(ent16x,num_of_blocks,FPS); %bit-rate in bits/second
 
 dispVecs = motionComp(framesM,num_of_frames);
 residualF = residCalc(framesM,num_of_frames,dispVecs);
-bitVec = Entropy(-10:10);
+bVec = Entropy(-10:10);
+bRVec = bVec*(size(dispVecs,1)*size(dispVecs,2)*size(dispVecs,3)*29);
