@@ -79,11 +79,11 @@ slopeBRvsPSNR = gradI(bRate,avgPSNR)
 
 dispVecs = motionComp(framesM,num_of_frames);
 residualF = residCalc(framesM,num_of_frames,dispVecs);
-<<<<<<< HEAD
+
 bitVec = Entropy(-10:10);
 
 %% Residual encoding
-=======
+
 bVec = Entropy(-10:10);
 bRVec = bVec*(size(dispVecs,1)*size(dispVecs,2)*size(dispVecs,3)*29);
->>>>>>> 720bf894237eb316a60cf3b3c9927fa4e842adf2
+
