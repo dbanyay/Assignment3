@@ -102,6 +102,7 @@ slopeBRvsPSNR_rep = gradI(bRate_rep,avgPSNR_rep)
 %% Video Coder with Motion Compensation
 
 dispVecs = motionComp(framesM,num_of_frames);
+
 residualF = residCalc(framesM,num_of_frames,dispVecs);
 
 % bitVec = Entropy(-10:10);
