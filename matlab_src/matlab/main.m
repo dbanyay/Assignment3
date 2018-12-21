@@ -72,7 +72,31 @@ slopeBRvsPSNR = gradI(bRate,avgPSNR)
 %% Conditional Replenishment Video Coder
 
 
-[decisions, rep_encoded] = modeSelection(qDCT16, FPS);
+[decisions, rep_encoded, bRate_rep] = modeSelection(qDCT16, FPS);
+bRate_rep(1) = bRate(1);
+
+distor_rep = disEst(dctCoeffs16,rep_encoded,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
+
+avgd_rep = mean(distor_rep);
+
+psnrEachF_rep = psnrCalc(distor_rep);
+avgPSNR_rep = mean(psnrEachF_rep);
+
+figure()
+plot((bRate(3:5)/(1024)),(avgd(3:5)),'*-')
+%plot((bRate_rep./(1024)),(avgd_rep),'*-')
+xlabel('bit rate in kbits per second')
+ylabel('average distortion')
+title('bit-rate Vs Distortion, Replenished')
+
+figure()
+plot((bRate(3:5)/(1024)),(avgPSNR(3:5)),'*-')
+%plot((bRate_rep./(1024)),(avgPSNR_rep),'*-')
+xlabel('bit rate in kbits per second')
+ylabel('average PSNR in dB')
+title('bit-rate Vs PSNR, Replenished')
+
+slopeBRvsPSNR_rep = gradI(bRate_rep,avgPSNR_rep)
 
 
 %% Video Coder with Motion Compensation
