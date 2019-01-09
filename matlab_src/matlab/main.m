@@ -1,6 +1,6 @@
-% clc
-% clear all
-% close all
+clc
+clear all
+close all
 
 %% Initialize
 
@@ -60,7 +60,7 @@ avgPSNR = mean(psnrEachF);
 % ylabel('average distortion')
 % title('bit-rate Vs Distortion')
 
-figure(1)
+figure
 hold on
 % plot((bRate(2:6)/(1024)),(avgPSNR(2:6)),'*-')
 plot((bRate./(1024)),(avgPSNR),'*-')
@@ -74,7 +74,7 @@ slopeBRvsPSNR = gradI(bRate,avgPSNR)
 
 
 [decisions, rep_encoded, bRate_rep] = modeSelection(qDCT16, FPS, qStep, dctCoeffs16);
-bRate_rep(1) = bRate(1);
+
 
 distor_rep = disEst(dctCoeffs16,rep_encoded,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
 
@@ -83,7 +83,7 @@ avgd_rep = mean(distor_rep);
 psnrEachF_rep = psnrCalc(distor_rep);
 avgPSNR_rep = mean(psnrEachF_rep);
 
-figure(1)
+figure
 % hold on;
 % plot((bRate_rep(2:6)/(1024)),(avgd_rep(2:6)),'*-')
 plot((bRate_rep./(1024)),(avgd_rep),'*-')
@@ -92,7 +92,7 @@ ylabel('average distortion')
 title('bit-rate Vs Distortion, Replenished')
 
 
-figure(2)
+figure
 % hold on;
 % plot((bRate_rep(2:6)/(1024)),(avgPSNR_rep(2:6)),'*-')
 plot((bRate_rep./(1024)),(avgPSNR_rep),'*-')

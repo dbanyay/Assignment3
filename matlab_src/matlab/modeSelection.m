@@ -34,15 +34,16 @@ for quant = 1:numOfQuantLevels
             if J0 < J1
                 decisionMatrix(block,frame,quant) = 0;  % intra mode
                 replenishment_encoded(:,:,block,frame,quant) = qDCT16(:,:,block,frame,quant);
-                entropy16(quant) = entropy16(quant) + Entropy(reshape(qDCT16(:,:,block,frame,quant),1,[]));
+                entropy16(quant) = entropy16(quant) + R0*16*16;
             else
                 decisionMatrix(block,frame,quant) = 1;  % copy mode
                 replenishment_encoded(:,:,block,frame,quant) = qDCT16(:,:,block,frame-1,quant);
-                entropy16(quant) = entropy16(quant) + 1;
+                entropy16(quant) = entropy16(quant) + R1*16*16;
             end
         end
     end
 end
+
 
 end
 
