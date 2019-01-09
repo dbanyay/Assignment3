@@ -16,18 +16,19 @@ for quant = 1:numOfQuantLevels
    
     for frame = 2:numOfFrames
         for block = 1:numOfBlocks
-                                   
-            stepSize = (2^qStep(quant))^2;
-            lambda = 0.2*stepSize^2; % Lagrange multiplier
+
+            lambda = 0.2*2^(qStep(quant))^2; % Lagrange multiplier
             
             % intra mode
-            D0 = mean(mean((qDCT16(:,:,block,frame,quant)-unQuantized16(:,:,block,frame)).^2));           
+            D0 = (qDCT16(:,:,block,frame,quant)-unQuantized16(:,:,block,frame)).^2;
+            D0 = mean(D0(:));
             R0 = calculateBlockRate(occurance, qDCT16(:,:,block,frame,quant))+1;
             J0 = D0 + lambda*R0;
             
             % copy mode
-            D1 = mean(mean((qDCT16(:,:,block,frame-1,quant)-unQuantized16(:,:,block,frame)).^2));
-            R1 = 1; % copy flag
+            D1 = (qDCT16(:,:,block,frame-1,quant)-unQuantized16(:,:,block,frame)).^2;
+            D1 = mean(D1(:));
+            R1 = 1/(16*16); % copy flag
             J1 = D1 + lambda*R1;
 
             if J0 < J1
