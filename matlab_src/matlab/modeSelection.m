@@ -1,4 +1,4 @@
-function [decisionMatrix, replenishment_encoded, entropy16] = modeSelection(qDCT16, FPS)
+function [decisionMatrix, replenishment_encoded, entropy16] = modeSelection(qDCT16, FPS, qStep, unQuantized16)
 % Select encoding mode for each 16*16 block
 
 numOfBlocks = size(qDCT16,3);
@@ -11,21 +11,22 @@ replenishment_encoded(:,:,:,1,:) = qDCT16(:,:,:,1,:);
 entropy16 = zeros(1,size(qDCT16,5));
 
 
-for quant = 1 : numOfQuantLevels
-    R0 = calculateRate(qDCT16(:,:,:,:,quant), FPS)+1;
+for quant = 1:numOfQuantLevels
+    occurance = calculateRate(qDCT16(:,:,:,:,quant), FPS);
    
     for frame = 2:numOfFrames
         for block = 1:numOfBlocks
                                    
-            stepSize = (2^quant)^2;
+            stepSize = (2^qStep(quant))^2;
             lambda = 0.2*stepSize^2; % Lagrange multiplier
             
             % intra mode
-            D0 = sum(sum((qDCT16(:,:,block,frame,quant)^2-qDCT16(:,:,block,frame,1)^2).^2));           
+            D0 = mean(mean((qDCT16(:,:,block,frame,quant)-unQuantized16(:,:,block,frame)).^2));           
+            R0 = calculateBlockRate(occurance, qDCT16(:,:,block,frame,quant))+1;
             J0 = D0 + lambda*R0;
             
             % copy mode
-            D1 = sum(sum((qDCT16(:,:,block,frame-1,quant)^2-qDCT16(:,:,block,frame,1)^2).^2));
+            D1 = mean(mean((qDCT16(:,:,block,frame-1,quant)-unQuantized16(:,:,block,frame)).^2));
             R1 = 1; % copy flag
             J1 = D1 + lambda*R1;
 
