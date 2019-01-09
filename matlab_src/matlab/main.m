@@ -60,7 +60,7 @@ avgPSNR = mean(psnrEachF);
 % ylabel('average distortion')
 % title('bit-rate Vs Distortion')
 
-figure
+figure(1)
 hold on
 % plot((bRate(2:6)/(1024)),(avgPSNR(2:6)),'*-')
 plot((bRate./(1024)),(avgPSNR),'*-')
@@ -92,8 +92,8 @@ ylabel('average distortion')
 title('bit-rate Vs Distortion, Replenished')
 
 
-figure
-% hold on;
+figure(1)
+hold on;
 % plot((bRate_rep(2:6)/(1024)),(avgPSNR_rep(2:6)),'*-')
 plot((bRate_rep./(1024)),(avgPSNR_rep),'*-')
 xlabel('bit rate in kbits per second')

@@ -43,7 +43,6 @@ for quant = 1:numOfQuantLevels
         end
     end
 end
-
-
+entropy16 = entropy16/numOfFrames*FPS;
 end
 
