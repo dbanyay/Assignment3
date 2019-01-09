@@ -17,8 +17,8 @@ for f = 1:49
                 end
                 minimum = min(min(mseR));
                 [x,y] = find(mseR==minimum);
-                dispVecs(1,ro,co,f) = x - 1;
-                dispVecs(2,ro,co,f) = y - 1;                
+                dispVecs(1,ro,co,f) = x(1) - 1;
+                dispVecs(2,ro,co,f) = y(1) - 1;                
             elseif((ro == 9) & (co == 11))
                 mseR = zeros(11);
                 for rshif = -10:0
@@ -28,8 +28,8 @@ for f = 1:49
                 end
                 minimum = min(min(mseR));
                 [x,y] = find(mseR==minimum);
-                dispVecs(1,ro,co,f) = x - 11;
-                dispVecs(2,ro,co,f) = y - 11;
+                dispVecs(1,ro,co,f) = x(1) - 11;
+                dispVecs(2,ro,co,f) = y(1) - 11;
             elseif((co == 1) & (ro == 9))
                 mseR = zeros(11);
                 for cshif = 0:10
@@ -39,8 +39,8 @@ for f = 1:49
                 end
                 minimum = min(min(mseR));
                 [x,y] = find(mseR==minimum);
-                dispVecs(1,ro,co,f) = x - 11;
-                dispVecs(2,ro,co,f) = y - 1;                 
+                dispVecs(1,ro,co,f) = x(1) - 11;
+                dispVecs(2,ro,co,f) = y(1) - 1;                 
             elseif((ro == 1) & (co == 11))
                 mseR = zeros(11);
                 for rshif = 0:10
@@ -50,8 +50,8 @@ for f = 1:49
                 end
                 minimum = min(min(mseR));
                 [x,y] = find(mseR==minimum);
-                dispVecs(1,ro,co,f) = x - 1;
-                dispVecs(2,ro,co,f) = y - 11;
+                dispVecs(1,ro,co,f) = x(1) - 1;
+                dispVecs(2,ro,co,f) = y(1) - 11;
             elseif(((ro == 1) & (co ~= 1)) & ((ro == 1) & (co ~= 11)))
                 mseR = zeros(11,21);
                 for rshif = 0:10
@@ -61,8 +61,8 @@ for f = 1:49
                 end
                 minimum = min(min(mseR));
                 [x,y] = find(mseR==minimum);
-                dispVecs(1,ro,co,f) = x - 1;
-                dispVecs(2,ro,co,f) = y - 11; 
+                dispVecs(1,ro,co,f) = x(1) - 1;
+                dispVecs(2,ro,co,f) = y(1) - 11; 
             elseif(((co == 1) & (ro ~= 1)) & ((co == 1) & (ro ~= 9)))
                 mseR = zeros(21,11);
                 for cshif = 0:10
@@ -72,8 +72,8 @@ for f = 1:49
                 end
                 minimum = min(min(mseR));
                 [x,y] = find(mseR==minimum);
-                dispVecs(1,ro,co,f) = x - 11;
-                dispVecs(2,ro,co,f) = y - 1;                 
+                dispVecs(1,ro,co,f) = x(1) - 11;
+                dispVecs(2,ro,co,f) = y(1) - 1;                 
             elseif(((ro == 9) & (co ~= 1)) & ((ro == 9) & (co ~= 11)))
                 mseR = zeros(11,21);
                 for cshif = -10:10
@@ -83,8 +83,8 @@ for f = 1:49
                 end
                 minimum = min(min(mseR));
                 [x,y] = find(mseR==minimum);
-                dispVecs(1,ro,co,f) = x - 11;
-                dispVecs(2,ro,co,f) = y - 11;                 
+                dispVecs(1,ro,co,f) = x(1) - 11;
+                dispVecs(2,ro,co,f) = y(1) - 11;                 
             elseif(((co == 11) & (ro ~= 1)) & ((co == 11) & (ro ~= 9)))
                 mseR = zeros(21,11);
                 for cshif = -10:0
@@ -94,8 +94,8 @@ for f = 1:49
                 end
                 minimum = min(min(mseR));
                 [x,y] = find(mseR==minimum);
-                dispVecs(1,ro,co,f) = x - 11;
-                dispVecs(2,ro,co,f) = y - 11;                 
+                dispVecs(1,ro,co,f) = x(1) - 11;
+                dispVecs(2,ro,co,f) = y(1) - 11;                 
             else                
                 mseR = zeros(21,21);
                 for cshif = -10:10
