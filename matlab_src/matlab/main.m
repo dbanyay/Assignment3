@@ -5,8 +5,8 @@ close all
 %% Initialize
 
 
-% filename = 'foreman_qcif.yuv';
-filename = 'mother-daughter_qcif.yuv';
+filename = 'foreman_qcif.yuv';
+%filename = 'mother-daughter_qcif.yuv';
 
 FPS = 30; %Number of Frames per second
 
@@ -83,13 +83,13 @@ avgd_rep = mean(distor_rep);
 psnrEachF_rep = psnrCalc(distor_rep);
 avgPSNR_rep = mean(psnrEachF_rep);
 
-% figure
-% % hold on;
-% % plot((bRate_rep(2:6)/(1024)),(avgd_rep(2:6)),'*-')
-% plot((bRate_rep./(1024)),(avgd_rep),'*-')
-% xlabel('bit rate in kbits per second')
-% ylabel('average distortion')
-% title('bit-rate Vs Distortion, Replenished')
+figure
+% hold on;
+% plot((bRate_rep(2:6)/(1024)),(avgd_rep(2:6)),'*-')
+plot((bRate_rep./(1024)),(avgd_rep),'*-')
+xlabel('bit rate in kbits per second')
+ylabel('average distortion')
+title('bit-rate Vs Distortion, Replenished')
 
 
 figure(1)
@@ -164,4 +164,3 @@ title('bit-rate Vs PSNR, motion comp')
 
 
 slopeBRvsPSNR = gradI(bRate,avgPSNR)
-
