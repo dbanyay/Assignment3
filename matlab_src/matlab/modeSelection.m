@@ -13,6 +13,14 @@ entropy16 = zeros(1,size(qDCT16,5));
 
 for quant = 1:numOfQuantLevels
     occurance = calculateRate(qDCT16(:,:,:,:,quant), FPS);
+    
+    frame = 1;
+    for block = 1:numOfBlocks
+        R0 = calculateBlockRate(occurance, qDCT16(:,:,block,frame,quant))+1;    
+        decisionMatrix(block,frame,quant) = 0;  % intra mode
+        replenishment_encoded(:,:,block,frame,quant) = qDCT16(:,:,block,frame,quant);
+        entropy16(quant) = entropy16(quant) + R0*16*16;
+    end
    
     for frame = 2:numOfFrames
         for block = 1:numOfBlocks
