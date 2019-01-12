@@ -18,7 +18,7 @@ for f = 1:49
                 minimum = min(min(mseR));
                 [x,y] = find(mseR==minimum);
                 dispVecs(1,ro,co,f) = x(1) - 1;
-                dispVecs(2,ro,co,f) = y(1) - 1;                
+                dispVecs(2,ro,co,f) = y(1) - 1;
             elseif((ro == 9) & (co == 11))
                 mseR = zeros(11);
                 for rshif = -10:0

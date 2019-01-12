@@ -100,6 +100,15 @@ xlabel('bit rate in kbits per second')
 ylabel('average PSNR in dB')
 title('bit-rate Vs PSNR, Replenished')
 
+values = zeros(4,2);
+for i = 1:4
+    zeros = length(decisions(decisions(:,:,i) == 0));
+    ones = length(decisions(decisions(:,:,i) == 1));
+    values(i,1) = zeros;
+    values(i,2) = ones;
+end
+
+
 
 slopeBRvsPSNR_rep = gradI(bRate_rep,avgPSNR_rep)
 
@@ -114,13 +123,11 @@ residualF = residCalc(framesM,num_of_frames,dispVecs);
 
 %% Residual encoding
 
-bVec = Entropy(-10:10);
-bRVec = bVec*(size(dispVecs,1)*size(dispVecs,2)*size(dispVecs,3)*29);
+% bVec = Entropy(-10:10);
+% bRVec = bVec*(size(dispVecs,1)*size(dispVecs,2)*size(dispVecs,3)*29);
 
-for i = 1:num_of_frames
-   
-    residualF_cell{i,1} = residualF(:,:,i);
-    
+for i = 1:num_of_frames   
+    residualF_cell{i,1} = residualF(:,:,i);    
 end
 
 
@@ -130,6 +137,8 @@ dctCoeffs16_res = dct8x(blocks16_res);
 %Quantize all the coefficients using same Q
 qDCT16_res = quant(dctCoeffs16_res,qStep);
 
+
+[decisions_res, res_encoded, bRate_res] = modeSelectionMotion(qDCT16_res, FPS, qStep, dctCoeffs16, qDCT16_res, dispVecs);
 %Entropy Calculator for 16 x 16 block
 
 ent16x_res = entroCal(qDCT16_res,qStep);

@@ -4,6 +4,8 @@ function occurance = calculateRate(block16,FPS)
 
 occurance = tabulate(block16(:));   % calculate pixel occurances
 
+occurance = occurance(occurance(:,3) ~= 0,:);
+
 occurance(:,3) = occurance(:,3)/100; % probabilities
 
 % R = sum(-log2(P));
