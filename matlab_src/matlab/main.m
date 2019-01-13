@@ -73,7 +73,7 @@ slopeBRvsPSNR = gradI(bRate,avgPSNR)
 %% Conditional Replenishment Video Coder
 
 
-[decisions, rep_encoded, bRate_rep] = modeSelection(qDCT16, FPS, qStep, dctCoeffs16);
+[decisions, rep_encoded, bRate_rep, dict] = modeSelection(qDCT16, FPS, qStep, dctCoeffs16);
 
 
 distor_rep = disEst(dctCoeffs16,rep_encoded,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
@@ -137,7 +137,6 @@ for i = 1:num_of_frames
 end
 
 
-
 blocks16_res = subdivide16(residualF_cell);
 dctCoeffs16_res = dct8x(blocks16_res);
 
@@ -145,21 +144,15 @@ dctCoeffs16_res = dct8x(blocks16_res);
 qDCT16_res = quant(dctCoeffs16_res,qStep);
 
 
-[decisions_res, res_encoded, bRate_res] = modeSelectionMotion(qDCT16_res, FPS, qStep, dctCoeffs16, qDCT16_res, dispVecs);
+[decisions_res, res_encoded, bRate_res] = modeSelectionMotion(qDCT16, FPS, qStep, dctCoeffs16, blocks16, qDCT16_res, dispVecs, dict, blockRes);
 %Entropy Calculator for 16 x 16 block
 
-ent16x_res = entroCal(qDCT16_res,qStep);
-
-%calculating bit-rate for each quantization step
-bRate_res = brEst(ent16x_res,num_of_blocks,FPS,qStep); %bit-rate in bits/second
-bRate_res = bRate_res + bVec; % add size of vectors
-%Calculating PSNR for each quantization step
-distor_res = disEst(dctCoeffs16_res,qDCT16_res,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
+distor_res = disEst(dctCoeffs16,res_encoded,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
 
 avgd_res = mean(distor_res);
 
-psnrEachF_res = psnrCalc(distor_res);
-avgPSNR_res = mean(psnrEachF_res);
+psnrEachF_rep = psnrCalc(distor_res);
+avgPSNR_rep = mean(psnrEachF_res);
 
 % figure(1)
 % % hold on;
@@ -178,5 +171,12 @@ xlabel('bit rate in kbits per second')
 ylabel('average PSNR in dB')
 title('bit-rate Vs PSNR, motion comp')
 
-
+for i = 1:4
+    zeros = length(decisions_res(decisions_res(:,:,i) == 0));
+    ones = length(decisions_res(decisions_res(:,:,i) == 1));
+    twos = length(decisions_res(decisions_res(:,:,i) == 2));
+    values_r(i,1) = zeros;
+    values_r(i,2) = ones;
+    values_r(i,3) = twos;
+end
 slopeBRvsPSNR = gradI(bRate,avgPSNR)

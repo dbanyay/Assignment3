@@ -1,4 +1,4 @@
-function [decisionMatrix, replenishment_encoded, entropy16] = modeSelection(qDCT16, FPS, qStep, unQuantized16, copybits)
+function [decisionMatrix, replenishment_encoded, entropy16, dicts] = modeSelection(qDCT16, FPS, qStep, unQuantized16)
 % Select encoding mode for each 16*16 block
 
 numOfBlocks = size(qDCT16,3);
@@ -14,7 +14,7 @@ entropy16 = zeros(1,size(qDCT16,5));
 for quant = 1:numOfQuantLevels
 
     dict = getDictValues(qDCT16(:,:,:,:,quant));
-
+    dicts{quant} = dict;
     frame = 1;
     for block = 1:numOfBlocks
         R0 = calculateBlockRate(dict(block,:,:), qDCT16(:,:,block,frame,quant))+1/(16*16);   
