@@ -83,15 +83,6 @@ avgd_rep = mean(distor_rep);
 psnrEachF_rep = psnrCalc(distor_rep);
 avgPSNR_rep = mean(psnrEachF_rep);
 
-figure
-% hold on;
-% plot((bRate_rep(2:6)/(1024)),(avgd_rep(2:6)),'*-')
-plot((bRate_rep./(1024)),(avgd_rep),'*-')
-xlabel('bit rate in kbits per second')
-ylabel('average distortion')
-title('bit-rate Vs Distortion, Replenished')
-
-
 figure(1)
 hold on;
 % plot((bRate_rep(2:6)/(1024)),(avgPSNR_rep(2:6)),'*-')
@@ -108,9 +99,9 @@ for i = 1:4
     values(i,2) = ones;
 end
 
-
-legend('Intra mode','Copy mode')
+figure
 bar(values,'stacked')
+legend('Intra mode','Copy mode')
 xticks([1 2 3 4])
 xticklabels({'2^3','2^4','2^5','2^6'})
 title('Comparing Intra and Copy mode coded blocks')
@@ -144,24 +135,21 @@ dctCoeffs16_res = dct8x(blocks16_res);
 qDCT16_res = quant(dctCoeffs16_res,qStep);
 
 
-[decisions_res, res_encoded, bRate_res] = modeSelectionMotion(qDCT16, FPS, qStep, dctCoeffs16, blocks16, qDCT16_res, dispVecs, dict, blockRes);
+[decisions_res, res_encoded, bRate_res, distMC] = modeSelectionMotion(qDCT16, FPS, qStep, dctCoeffs16, blocks16, dctCoeffs16_res, qDCT16_res, dispVecs, dict, blockRes);
 %Entropy Calculator for 16 x 16 block
 
-distor_res = disEst(dctCoeffs16,res_encoded,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
+% distor_res = disEst(dctCoeffs16,res_encoded,num_of_frames,num_of_quant_steps); %Distortion = MSE (Original DCT^2, Recovered DCT^2)
+for qunt = 1: 4
+    for fr = 1:50
+        distor_res(fr,qunt) = mean(distMC(:,fr,qunt));
+    end
+end
 
 avgd_res = mean(distor_res);
 
-psnrEachF_rep = psnrCalc(distor_res);
-avgPSNR_rep = mean(psnrEachF_res);
+psnrEachF_res = psnrCalc(distor_res);
+avgPSNR_res = mean(psnrEachF_res);
 
-% figure(1)
-% % hold on;
-% % plot((bRate_res(2:6)/(1024)),(avgd_res(2:6)),'*-')
-% plot((bRate_res./(1024)),(avgd_res),'*-')
-% xlabel('bit rate in kbits per second')
-% ylabel('average distortion')
-% title('bit-rate Vs Distortion, motion comp')
-% 
 
 figure(1)
 hold on;
@@ -179,4 +167,12 @@ for i = 1:4
     values_r(i,2) = ones;
     values_r(i,3) = twos;
 end
+
+figure
+
+bar(values_r,'stacked')
+legend('Intra mode','Copy mode', 'Motion vector')
+xticks([1 2 3 4])
+xticklabels({'2^3','2^4','2^5','2^6'})
+title('Comparing Intra, Copy mode and Motion vector coded blocks')
 slopeBRvsPSNR = gradI(bRate,avgPSNR)
