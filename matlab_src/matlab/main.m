@@ -109,6 +109,11 @@ for i = 1:4
 end
 
 
+legend('Intra mode','Copy mode')
+bar(values,'stacked')
+xticks([1 2 3 4])
+xticklabels({'2^3','2^4','2^5','2^6'})
+title('Comparing Intra and Copy mode coded blocks')
 
 slopeBRvsPSNR_rep = gradI(bRate_rep,avgPSNR_rep)
 
