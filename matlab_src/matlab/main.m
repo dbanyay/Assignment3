@@ -120,9 +120,10 @@ slopeBRvsPSNR_rep = gradI(bRate_rep,avgPSNR_rep)
 
 %% Video Coder with Motion Compensation
 
-dispVecs = motionComp(framesM,num_of_frames);
-
+[dispVecs, blockRes] = motionComp(framesM,num_of_frames);
 residualF = residCalc(framesM,num_of_frames,dispVecs);
+
+
 
 % bitVec = Entropy(-10:10);
 
@@ -134,6 +135,7 @@ residualF = residCalc(framesM,num_of_frames,dispVecs);
 for i = 1:num_of_frames   
     residualF_cell{i,1} = residualF(:,:,i);    
 end
+
 
 
 blocks16_res = subdivide16(residualF_cell);
